@@ -1,0 +1,41 @@
+{
+  "name": "tailejs",
+  "version": "0.0.1",
+  "description": "",
+  "main": "src/tailejs",
+  "bin": {
+    "tailejs": "./src/tailejs"
+  },
+  "scripts": {
+    "tailejs": "./src/tailejs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anhhaome/taile.js.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/anhhaome/taile.js/issues"
+  },
+  "homepage": "https://github.com/anhhaome/taile.js#readme",
+  "dependencies": {
+    "autoprefixer": "^10.4.4",
+    "chokidar": "^3.5.3",
+    "colors": "^1.4.0",
+    "cssnano": "^5.1.7",
+    "ejs": "^3.1.7",
+    "faye-websocket": "^0.11.4",
+    "glob": "^8.0.1",
+    "koa": "^2.13.4",
+    "koa-send": "^5.0.1",
+    "moment": "^2.29.3",
+    "object-path": "^0.11.8",
+    "open": "^8.4.0",
+    "path-to-regexp": "^6.2.0",
+    "postcss": "^8.4.12",
+    "postcss-nested": "^5.0.6",
+    "ramda": "^0.28.0",
+    "tailwindcss": "^3.0.24",
+    "yargs": "^17.4.1"
+  }
+}
