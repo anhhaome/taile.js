@@ -1,6 +1,6 @@
 {
   "name": "tailejs",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "main": "src/tailejs",
   "bin": {
@@ -37,5 +37,6 @@
     "ramda": "^0.28.0",
     "tailwindcss": "^3.0.24",
     "yargs": "^17.4.1"
-  }
+  },
+  "depends": ["server", "static", "default"]
 }

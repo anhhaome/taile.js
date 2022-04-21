@@ -67,7 +67,7 @@ commander.command('start <root>', 'start the server', rootArgv,
     const app = new Koa();
 
     app.use(createStatic({ root: publicRoot }));
-    app.use(serveView(viewRoot));
+    app.use(serveView({ root: viewRoot, live: true }));
 
     const server = await app.listen(3000);
     const location = 'http://localhost:3000';

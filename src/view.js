@@ -6,6 +6,7 @@ const { match } = require('path-to-regexp');
 const objectPath = require('object-path');
 const ejs = require('ejs');
 const moment = require('moment');
+const { curry } = require('ramda');
 
 const inject = require('./inject');
 
@@ -101,22 +102,24 @@ const matchRoute = (ctx, routes) => {
   }
 }
 
-const serveView = (root) => {
-  return async ctx => {
-    const routes = exploreRoutes(root);
-    const route = matchRoute(ctx, routes);
+const serveView = async ({ root, live }, ctx) => {
+  const viewRoot = ctx.viewRoot || root;
 
-    if (!route){
-      ctx.status = 404;
-      ctx.body = 'Not found';
-      return;
-    }
+  const routes = exploreRoutes(viewRoot);
+  const route = matchRoute(ctx, routes);
 
-    const state = createViewState(ctx, route.params);
-    const body = await render(root, route.view, state);
-
-    ctx.status = body ? 200 : 404;
-    ctx.body = inject(body) || 'Not found';
+  if (!route){
+    ctx.status = 404;
+    ctx.body = 'Not found';
+    return;
   }
+
+  const state = createViewState(ctx, route.params);
+  const body = await render(viewRoot, route.view, state);
+
+  ctx.status = body ? 200 : 404;
+  ctx.body = (live ? inject(body) : body) || 'Not found';
 }
-module.exports = serveView;
+
+
+module.exports = curry(serveView);
