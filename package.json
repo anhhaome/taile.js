@@ -1,23 +1,38 @@
 {
   "name": "tailejs",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "",
-  "main": "src/tailejs",
+  "main": "./src/index.js",
   "bin": {
-    "tailejs": "./src/tailejs"
+    "tailejs": "./src/taile.js"
   },
   "scripts": {
-    "tailejs": "./src/tailejs"
+    "tailejs": "./src/taile.js",
+    "doc": "jsdoc2md **/*.js > docs/API.md",
+    "lint:check": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "lint": "npm run lint:fix",
+    "test": "mocha",
+    "coverage": "c8 npm run test",
+    "pre-commit": "npm run lint && npm run coverage && npm run doc"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/anhhaome/taile.js.git"
   },
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/anhhaome/taile.js/issues"
   },
   "homepage": "https://github.com/anhhaome/taile.js#readme",
+  "devDependencies": {
+    "c8": "^7.11.2",
+    "chai": "^4.3.6",
+    "eslint": "^8.14.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-jsdoc": "^39.2.9",
+    "jsdoc-to-markdown": "^7.1.1",
+    "mocha": "^10.0.0"
+  },
   "dependencies": {
     "autoprefixer": "^10.4.4",
     "chokidar": "^3.5.3",
@@ -38,5 +53,6 @@
     "tailwindcss": "^3.0.24",
     "yargs": "^17.4.1"
   },
-  "depends": ["server", "static", "default"]
+  "author": "Vu Anh Hao <hi@anhhao.me> (https://www.anhhao.me)",
+  "license": "MIT"
 }

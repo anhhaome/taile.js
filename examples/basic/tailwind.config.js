@@ -4,12 +4,12 @@ module.exports = {
 
   content: [
     './public/**/*.{html,ejs}',
-    './views/**/*.{html,ejs}',
+    './views/**/*.{html,ejs}'
   ],
 
   theme: {
-    extend: {},
+    extend: {}
   },
 
-  plugins: [],
-}
+  plugins: []
+};
