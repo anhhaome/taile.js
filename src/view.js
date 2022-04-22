@@ -12,20 +12,17 @@ const inject = require('./inject');
 
 const parentResolveInclude = ejs.resolveInclude;
 const render = async (storage, view, state) => {
-  ejs.resolveInclude = function(name, filename, isDir) {
+  ejs.resolveInclude = function (name, filename, isDir) {
     const relativeFilename = path.relative(storage, path.join(path.dirname(filename), name));
-    if (relativeFilename && relativeFilename.indexOf('..') === 0)
-      throw new Error('cannot include view outside storage');
-      
-    return parentResolveInclude(path.normalize(name), path.normalize(filename), isDir);
-  }
+    if (relativeFilename && relativeFilename.indexOf('..') === 0) { throw new Error('cannot include view outside storage'); }
 
-  if (!path.extname(view))
-    view += '.ejs';
+    return parentResolveInclude(path.normalize(name), path.normalize(filename), isDir);
+  };
+
+  if (!path.extname(view)) { view += '.ejs'; }
 
   const viewPath = path.join(storage, view);
-  if (!fs.existsSync(viewPath))
-    return null;
+  if (!fs.existsSync(viewPath)) { return null; }
 
   const tpl = fs.readFileSync(viewPath, 'utf8');
   const fn = ejs.compile(tpl, {
@@ -35,7 +32,7 @@ const render = async (storage, view, state) => {
   });
 
   return fn(state);
-}
+};
 
 const createViewState = (ctx, params) => {
   const state = Object.assign({}, {
@@ -55,11 +52,11 @@ const createViewState = (ctx, params) => {
     dump: o => JSON.stringify(o, 0, 2)
   }, ctx.state);
 
-  state.get = function(p){ return objectPath.get(this, p); };
-  state.set = function(p, v){ return objectPath.set(this, p, v); };
+  state.get = function (p) { return objectPath.get(this, p); };
+  state.set = function (p, v) { return objectPath.set(this, p, v); };
 
   return state;
-}
+};
 
 const exploreRoutes = root => {
   const raw = glob.sync('**/*.ejs', { cwd: root });
@@ -73,34 +70,32 @@ const exploreRoutes = root => {
       method: 'all',
       path: viewPath,
       view: item
-    }
+    };
   });
 
   return routes;
-}
+};
 
 const matchRoute = (ctx, routes) => {
   const reqMethod = ctx.method.toLowerCase();
   const reqUrl = ctx.url;
 
-  for (let route of routes){
-    if (route.method !== 'all' && route.method !== reqMethod)
-      continue;
+  for (const route of routes) {
+    if (route.method !== 'all' && route.method !== reqMethod) { continue; }
 
-    let fn = match(route.path, { decode: decodeURIComponent });
-    let rel = fn(reqUrl);
+    const fn = match(route.path, { decode: decodeURIComponent });
+    const rel = fn(reqUrl);
 
-    if (!rel)
-      continue;
+    if (!rel) { continue; }
 
     return {
       ...route,
       params: {
         ...rel.params
       }
-    }
+    };
   }
-}
+};
 
 const serveView = async ({ root, live }, ctx) => {
   const viewRoot = ctx.viewRoot || root;
@@ -108,7 +103,7 @@ const serveView = async ({ root, live }, ctx) => {
   const routes = exploreRoutes(viewRoot);
   const route = matchRoute(ctx, routes);
 
-  if (!route){
+  if (!route) {
     ctx.status = 404;
     ctx.body = 'Not found';
     return;
@@ -119,7 +114,6 @@ const serveView = async ({ root, live }, ctx) => {
 
   ctx.status = body ? 200 : 404;
   ctx.body = (live ? inject(body) : body) || 'Not found';
-}
-
+};
 
 module.exports = curry(serveView);
