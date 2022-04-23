@@ -98,7 +98,7 @@ const matchRoute = (ctx, routes) => {
 };
 
 const serveView = async ({ root, live }, ctx) => {
-  const viewRoot = ctx.viewRoot || root;
+  const viewRoot = root;
 
   const routes = exploreRoutes(viewRoot);
   const route = matchRoute(ctx, routes);
