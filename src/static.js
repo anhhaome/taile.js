@@ -5,7 +5,7 @@ const send = require('koa-send');
 const R = require('ramda');
 
 const inject = require('./inject');
-const possibleExtensions = ['', '.html', '.htm', '.xhtml', '.php', '.svg'];
+const possibleExtensions = ['', '.html', '.htm', '.xhtml', '.php'];
 
 const createStatic = async (options, ctx, next) => {
   opts = Object.assign(Object.create(null), options);
