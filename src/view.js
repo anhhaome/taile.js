@@ -49,7 +49,7 @@ const createViewState = (ctx, params) => {
 
     // utils
     moment,
-    dump: o => JSON.stringify(o, 0, 2)
+    dump: o => JSON.stringify(o, 0, 2),
   }, ctx.state);
 
   state.get = function (p) { return objectPath.get(this, p); };
@@ -61,7 +61,18 @@ const createViewState = (ctx, params) => {
 const exploreRoutes = root => {
   const raw = glob.sync('**/*.ejs', { cwd: root });
 
-  const routes = raw.map(item => {
+  const routes = raw
+  .filter(filePath => {
+    const pp = path.parse(filePath);
+
+    // skip dot file and double underscore file
+    if (pp.name[0] === '.' || (pp.name[0] === '_' && pp.name[1] === '_')){
+      return false;
+    }
+
+    return true;
+  })
+  .map(item => {
     const pp = path.parse(item);
     const rawViewPath = pp.name === 'index' ? path.join('/', pp.dir) : path.join('/', pp.dir, pp.name);
     const viewPath = rawViewPath.replace(/\/\_/g, '\/\:');
