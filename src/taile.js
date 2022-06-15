@@ -69,8 +69,8 @@ commander.command('start <root>', 'start the server', rootArgv,
     app.use(createStatic({ root: publicRoot }));
     app.use(serveView({ root: viewRoot, live: true }));
 
-    const server = await app.listen(3000);
-    const location = 'http://localhost:3000';
+    const server = await app.listen(3001);
+    const location = 'http://localhost:3001';
     console.log(`[Server] Server is running at: ${location}`.green);
     await open(location);
 
